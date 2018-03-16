@@ -1,5 +1,4 @@
 import sys, os, configparser, time 
-sys.path.insert(0,'modules') 
 from menu import * 
 from fs import * 
 from utils import * 
