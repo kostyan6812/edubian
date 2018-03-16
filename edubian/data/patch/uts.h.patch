@@ -1,0 +1,11 @@
+--- uts.h	2018-03-07 05:38:20.100358213 +0000
++++ uts.h.new	2018-03-07 05:36:06.404018522 +0000
+@@ -6,7 +6,7 @@
+  * Defines for what uname() should return 
+  */
+ #ifndef UTS_SYSNAME
+-#define UTS_SYSNAME "Linux"
++#define UTS_SYSNAME "eduBian"
+ #endif
+ 
+ #ifndef UTS_NODENAME

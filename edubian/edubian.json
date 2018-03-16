@@ -1,0 +1,55 @@
+{
+	"edubian" : {
+		"version": "1.0"
+	},
+	"menu": [
+        {
+        "1" : "Build all components"
+        },
+	{
+	"2" : "Build kernel"
+	},
+	{
+        "3" : "Build file system"
+	},
+	{
+        "4" : "Build installer"
+	},
+	{
+        "5": "Exit"
+	}
+	        ],
+	"Build all components": [
+	{
+	"git" : "Download latest stable kernel from git",
+	"make" : "Build kernel for x86_64",
+	"mfs"  : "Create root file system and place it on thin disk",
+	"pkg" : "Create package for installation",
+	"out" : "Place package to output dir"
+	}
+			],
+	"Build kernel": [
+	{
+	"git" : "Download latest stable kernel from git",
+	"make" : "Build kernel for x86_64",
+	"out" : "Place bzImage to output dir"
+	}
+			],
+	"Build file system": [
+	{
+	"mfs" : "Create root file system and place it on thin disk",
+	"out" : "Place thin disk to output dir"
+	}
+			],
+	"Build installer": [
+	{
+	"pkg" : "Create package for installation",
+	"out" : "Place package to output dir"
+	}
+			],
+	"Exit": [
+	{
+	"exit" : "Exit from build system"
+	}
+			]
+}
