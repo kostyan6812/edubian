@@ -16,4 +16,6 @@ RUN mkdir /root/edubian/
 RUN mkdir /root/src/
 RUN mkdir /root/output/
 COPY edubian/ /root/edubian/
-WORKDIR /root/
+WORKDIR /root/edubian
+
+ENTRYPOINT ["python", "__init__.py"]
