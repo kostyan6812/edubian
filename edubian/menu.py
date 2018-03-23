@@ -88,7 +88,7 @@ class MainScr(object):
 		self.wins(options)
 		self.left_win.keypad(True)
 		row_num = len(menu)
-		footer_text = 'Press UP, DOWN arrow key fo select menu item. Press ENTER fo select item. Press ESC for exit.'
+		footer_text = 'Press UP, DOWN arrow key for change menu item. Press ENTER fo select item. Press ESC for exit.'
 		self.footer_win.addstr(1,1, footer_text, self.nT)
 		self.footer_win.refresh()
 		for item in menu:
