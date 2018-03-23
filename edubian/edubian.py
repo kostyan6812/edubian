@@ -20,7 +20,7 @@ pswd = config['edubian']['password']
 mlst = ''.join((config['edubian']['data'], config['edubian']['multistrap']))
 conf = ''.join((config['edubian']['data'],"rootfs/etc"))
 content = config['edubian']['data']
-nsi = ''.join((homedir, "/", config['pkg']['exe']))
+nsi = ''.join((homedir, "/edubian/", config['pkg']['exe']))
 right_pos = 3
 str_count = 7
 
