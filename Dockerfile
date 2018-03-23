@@ -6,10 +6,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade && 
 	             btrfs-tools ncurses-term p7zip-full kmod dosfstools libc6-dev-armhf-cross fakeroot systemd-container udev distcc \
 	             libc6-i386 lib32ncurses5 lib32tinfo5 locales ncurses-base zlib1g aptly pixz libelf-dev python swig python-dev nsis nuitka qemu-utils python-pip
 RUN pip install configparser
-WORKDIR /root/edubian
+WORKDIR /root/
 USER root
-COPY edubian /root/
-COPY src /root/
-ADD output /root/
+ADD edubian/ /root/
+ADD src/ /root/
+ADD output/ /root/
+RUN ls -la /root/
 
-ENTRYPOINT [ "/bin/bash", "python /root/edubian/__init__.py" ]
+ENTRYPOINT [ "/bin/bash", "python /root/__init__.py" ]
