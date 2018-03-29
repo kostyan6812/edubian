@@ -20,6 +20,7 @@ pswd = config['edubian']['password']
 mlst = ''.join((config['edubian']['data'], config['edubian']['multistrap']))
 conf = ''.join((config['edubian']['data'],"rootfs/etc"))
 content = config['edubian']['data']
+scripts = config['edubian']['scripts']
 nsi = ''.join((homedir, "/edubian/", config['pkg']['exe']))
 right_pos = 3
 str_count = 7
@@ -87,6 +88,7 @@ def mfs(right_pos):
 	rf.create_rootfs(rootfs, mlst)
 	rf.passwd_rootfs("root", pswd, rootfs)
 	rf.custom_rootfs(conf, rootfs)
+	rf.env(scripts, ''.join((rootfs,"/usr/share/edubian/")))
 	rf.compile(''.join((content, "data.py")), content)
 	rf.virtual_disk("rootfs.raw", "1024M", rootfs, outputdir)
 	right_text_ln = 'Complite.'
