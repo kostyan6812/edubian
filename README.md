@@ -1,5 +1,5 @@
 # edubian
 To build run
 ```
-$ sudo docker build -t 
+$ sudo docker build -f Dockerfile .
 ```
