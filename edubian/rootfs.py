@@ -42,7 +42,7 @@ class Rootfs(object):
 		Run(["cp", "-r", configs, dir])
 
 ##--files for tasks env--
-	def env(self, scripts, dir)
+	def env(self, scripts, dir):
 		args = ''.join((scripts, "/*"))
 		Run(["cp", args, dir])
 
