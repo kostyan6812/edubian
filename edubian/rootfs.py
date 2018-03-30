@@ -18,7 +18,6 @@ class Rootfs(object):
 		Run(["mkdir",  dir])
 		Run(["mkdir",  ''.join((dir,"/proc/"))])
 		Run(["mkdir",  ''.join((dir,"/dev/"))])
-		Run(["mkdir",  ''.join((dir,"/usr/share/edubian"))])
 		Run(["mount", "-o", "bind", "/proc", ''.join((dir,"/proc/"))])
 		Run(["mount", "-o", "bind", "/dev", ''.join((dir,"/dev/"))])
 		Runshell([''.join(("multistrap -f ", config, " -d ", dir))])
@@ -42,16 +41,20 @@ class Rootfs(object):
 		Run(["cp", "-r", configs, dir])
 
 ##--files for tasks env--
-	def env(self, scripts, dir):
-		args = ''.join((scripts, "/*"))
-		Run(["cp", args, dir])
+	def env(self, scripts, dir, rootfs):
+		args = [''.join((scripts, "/adduser.py")), ''.join((scripts, "/tasks.md")),  ''.join((scripts, "/template.ipynb"))]
+		Run(["mkdir", dir])
+		Run(["cp", ''.join((scripts, "/adduser.local")), ''.join((rootfs,"/usr/local/sbin/"))])
+		for str in args:
+			Run(["cp", "-r", str, dir])
+
 
 ##--compile python file to bin--	
-	def compile(self, file, dir):
+	def compile(self, file, dir, rootfs):
 		Run([''.join(("/usr/bin/nuitka ", file))], dir)
 		Run([''.join(("mv ", os.path.splitext(file)[0]+".exe ", os.path.splitext(file)[0]))], dir)
 		Run([''.join(("rm ", " -r ", os.path.splitext(file)[0]+".build"))], dir)
-		Run([''.join(("cp", os.path.splitext(file)[0], ''.join((dir,"/usr/share/edubian"))))], dir)
+		Run([''.join(("mv ", os.path.splitext(file)[0], " ", ''.join((rootfs,"/usr/share/edubian"))))], dir)
 
 ##--create virtual disk--
 	def virtual_disk(self, file, size, rootfs, dir):
