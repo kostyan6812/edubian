@@ -30,15 +30,18 @@ class Rootfs(object):
 		exp = pexpect.spawn(chroot)
 		exp.expect("Enter new UNIX password:")
 		exp.sendline(password)
-		exp.sendline("\r\n")
 		exp.expect("Retype new UNIX password:")
 		exp.sendline(password)
-		exp.sendline("\r\n")
         	exp.expect(pexpect.EOF)
 
 ##--customise OS parameters--
 	def custom_rootfs(self, configs, dir):
 		Run(["cp", "-r", configs, dir])
+		Run(["mkdir", "-v", ''.join((dir, "/opt/edubian"))])
+		Run(["mv", "-v", "data/date", ''.join((dir, "/opt/edubian"))])
+		Run(["cp", "-v", "data/scripts/adduser.py", ''.join((dir, "/usr/local/sbin/adduser.local"))])
+		Run(["cp", "-v", "data/task.ipynb", ''.join((dir, "/opt/edubian"))])
+		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 
 ##--compile python file to bin--	
 	def compile(self, file, dir):

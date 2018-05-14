@@ -15,7 +15,7 @@ workdir = config['git']['dir']
 homedir = home_dir()[:-len('edubian')]
 dir = ''.join((homedir, workdir))
 json_file = config['json']['file']
-outputdir = ''.join((homedir, "output"))
+outputdir = ''.join((homedir, "output/"))
 rootfs = ''.join((outputdir, "rootfs"))
 pswd = config['edubian']['password']
 mlst = ''.join((config['edubian']['data'], config['edubian']['multistrap']))
@@ -92,13 +92,12 @@ def mfs(right_pos):
         curses.endwin()
 	rf.create_rootfs(rootfs, mlst)
 	rf.passwd_rootfs("root", pswd, rootfs)
+	rf.compile(''.join((homedir, "edubian/", content, "date.py")), content)
 	rf.custom_rootfs(conf, rootfs)
-	rf.compile(''.join((content, "data.py")), content)
 	rf.virtual_disk("rootfs.raw", "1024M", rootfs, outputdir)
 	right_text_ln = 'Complite.'
         right_pos = right_pos + 1
 	scr.right_pos += right_pos
-	print right_pos, scr.right_pos
         scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
 	return right_pos
 
@@ -117,7 +116,6 @@ def exit(right_pos):
 
 try:
 		menu, description = json_parse(json_file)
-#	        MainScr(menu, description)
 		scr = MainScr(menu, description)
                 key = scr.left_win.getch()
 		number = 0
