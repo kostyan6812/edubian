@@ -1,44 +1,44 @@
-import os, sys, subprocess, random, hashlib
+import sys, os, shutil, subprocess, hashlib, textwrap, time
 
 args = sys.argv
 user = str(args[1])
-home = ''.join(("/home/", user))
-tmp = ''.join(("/var/tmp/","Tmp", str(random.randrange(65535)), "-", user))
+home_dir = "/root/edubian/scripts/output/rootfs/home/"+user
+tmp_dir = "/root/edubian/scripts/output/rootfs/opt/edubian"
+
+print "Create assignment source tree"
 
 ##--create md5 summ--
 def sig(key):
-        hash = hashlib.md5(key).hexdigest()
-        return hash
+        m = hashlib.md5(u"test").hexdigest()
+        return m
 
-##--read and count string in file--
-def read_file(file):
-	read = open(file, 'r')
-	string = read.readlines()
-	count = len(string)
-	return count, string
+##--open file for write--
+def file_w(file, text):
+	f = open(file, 'w')
+	f.write(text)
+	f.close()
 
-print 'Start task of creating an environment'
+##--create user folders--
+subprocess.call(["mkdir",  home_dir])
+subprocess.call(["mkdir",  home_dir+"/Assignment"])
+subprocess.call(["mkdir",  home_dir+"/Assignment/Topics"])
+subprocess.call(["mkdir",  home_dir+"/Assignment/Topics/scripts"])
 
-print '1. Create Assignment dir'
-subprocess.call(["mkdir", tmp])
-subprocess.call(["mkdir",  ''.join((home, "/Assignment"))])
-subprocess.call(["mkdir",  ''.join((home, "/Assignment/App"))])
+##--create var for user--
+key = str(sig(user))
+date = time.ctime()
+##--create user file--
+subprocess.call(["cp", "/dev/null", home_dir+"/Assignment/"+"."+user])
+file_w(home_dir+"/Assignment/"+"."+user, textwrap.dedent('''\
+signature: %s
+user: %s
+home dir: %s
+date: %s 
+''') % (key, user, home_dir, date))
 
-count, string = read_file('/usr/share/edubian/tasks.md')
-hash = ''.join(("This file contains a signature ", sig(user)))
-print '2. Create tasks file'
-for i in range(count):
-	st = string[i]
-	number = st.split()
-	subprocess.call(["cp", "usr/share/edubian/template.ipynb", ''.join((tmp, "/Task-", number[1], ".ipynb"))])
-	subprocess.call(["sed", "-i", ''.join(("s/This file contains a signature/", hash, "/g")), ''.join((tmp, "/Task-", number[1], ".ipynb"))])
-	subprocess.call(["sed", "-i", ''.join(("s/", "## Name and number task/", st.rstrip('\n'), "/g")), ''.join((tmp, "/Task-", number[1], ".ipynb"))])
-	subprocess.call(["cp", ''.join((tmp, "/Task-", number[1], ".ipynb")), ''.join((home, "/Assignment"))])
-
-subprocess.call(["rm", "-r", tmp])
-print '3. Create App file'
-subprocess.call(["cp", "/usr/share/edubian/date", ''.join((home, "/Assignment/App"))])
-subprocess.call(["chown", "-R", ''.join((user, ":", user)),  ''.join((home, "/Assignment/"))])
-print 'Complite'
+#subprocess.call(["chown","-R", user+":"+user, home_dir+"/*"])
+subprocess.call(["mv",tmp_dir+"/date", home_dir+"/Assignment/Topics/scripts/"])
+subprocess.call(["mv",tmp_dir+"/task.ipynb", home_dir+"/Assignment/Topics/"])
+subprocess.call(["sed", "-i", "s/User signature/User signature "+key+"/g", home_dir+"/Assignment/Topics/task.ipynb"])
 
 

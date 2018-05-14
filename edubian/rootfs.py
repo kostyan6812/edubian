@@ -40,21 +40,11 @@ class Rootfs(object):
 	def custom_rootfs(self, configs, dir):
 		Run(["cp", "-r", configs, dir])
 
-##--files for tasks env--
-	def env(self, scripts, dir, rootfs):
-		args = [''.join((scripts, "/adduser.py")), ''.join((scripts, "/tasks.md")),  ''.join((scripts, "/template.ipynb"))]
-		Run(["mkdir", dir])
-		Run(["cp", ''.join((scripts, "/adduser.local")), ''.join((rootfs,"/usr/local/sbin/"))])
-		for str in args:
-			Run(["cp", "-r", str, dir])
-
-
 ##--compile python file to bin--	
-	def compile(self, file, dir, rootfs):
+	def compile(self, file, dir):
 		Run([''.join(("/usr/bin/nuitka ", file))], dir)
 		Run([''.join(("mv ", os.path.splitext(file)[0]+".exe ", os.path.splitext(file)[0]))], dir)
 		Run([''.join(("rm ", " -r ", os.path.splitext(file)[0]+".build"))], dir)
-		Run([''.join(("mv ", os.path.splitext(file)[0], " ", ''.join((rootfs,"/usr/share/edubian"))))], dir)
 
 ##--create virtual disk--
 	def virtual_disk(self, file, size, rootfs, dir):

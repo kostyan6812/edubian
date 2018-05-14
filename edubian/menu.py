@@ -2,7 +2,7 @@ import curses, sys, os
 from utils import *
 
 class MainScr(object):
-	def __init__(self, menu, description, title="Build system for MIREA education operstaion system - eduBian (c)2017 - 2018"):
+	def __init__(self, menu, description, title="Build system for MIREA education operation system - eduBian (c)2017 - 2018"):
 		curses.initscr()
 		curses.savetty()
 		curses.start_color()
@@ -88,7 +88,7 @@ class MainScr(object):
 		self.wins(options)
 		self.left_win.keypad(True)
 		row_num = len(menu)
-		footer_text = 'Press UP, DOWN arrow key for change menu item. Press ENTER fo select item. Press ESC for exit.'
+		footer_text = 'Press UP, DOWN arrow key for move menu item. Press ENTER fo select item. Press ESC for exit.'
 		self.footer_win.addstr(1,1, footer_text, self.nT)
 		self.footer_win.refresh()
 		for item in menu:

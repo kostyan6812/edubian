@@ -1,4 +1,5 @@
 import sys, os, configparser, time 
+sys.path.insert(0,'modules') 
 from menu import * 
 from fs import * 
 from utils import * 
@@ -15,13 +16,12 @@ homedir = home_dir()[:-len('edubian')]
 dir = ''.join((homedir, workdir))
 json_file = config['json']['file']
 outputdir = ''.join((homedir, "output"))
-rootfs = ''.join((outputdir, "/rootfs"))
+rootfs = ''.join((outputdir, "rootfs"))
 pswd = config['edubian']['password']
 mlst = ''.join((config['edubian']['data'], config['edubian']['multistrap']))
 conf = ''.join((config['edubian']['data'],"rootfs/etc"))
-content = ''.join((home_dir(), "/", config['edubian']['data']))
-scripts = ''.join((home_dir(), "/", config['edubian']['scripts']))
-nsi = ''.join((homedir, "/edubian/", config['pkg']['exe']))
+content = config['edubian']['data']
+nsi = ''.join((homedir, "/", config['pkg']['exe']))
 right_pos = 3
 str_count = 7
 
@@ -38,6 +38,7 @@ def git(right_pos):
         scr.right_pos += right_pos
 	scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
         proc = Run(['git', 'clone', url, dir])
+	return right_pos
 
 ##--make kernel--
 def make(right_pos):
@@ -45,10 +46,10 @@ def make(right_pos):
         right_pos = right_pos + 1
         scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
         args = patch_kernel(dir)
+        right_pos = right_pos + 1
         for arg in args:
                 proc = Run(arg)
                 right_text_ln = 'Make kernel'
-                right_pos = right_pos + 1
                 scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
         args = make_config(dir)
         for arg in args:
@@ -60,6 +61,7 @@ def make(right_pos):
                 curses.savetty()
                 curses.endwin()
                 proc = Run(arg, dir)
+        right_pos = right_pos + 1
 	scr.right_pos += right_pos
 	return right_pos
 
@@ -69,6 +71,8 @@ def out(right_pos, pkg, outputdir):
 	if chk:
 		right_text_ln = 'Image exist.'
 		scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
+	        right_pos = right_pos + 1
+		scr.right_pos += right_pos
 	else: 
 		right_text_ln = 'Move image to output dir'
         	right_pos = right_pos + 1
@@ -80,6 +84,7 @@ def out(right_pos, pkg, outputdir):
 		scr.right_pos += right_pos
         	scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
 	return right_pos
+
 ##--make rootfs--
 def mfs(right_pos):
 	rf = Rootfs()
@@ -88,19 +93,23 @@ def mfs(right_pos):
 	rf.create_rootfs(rootfs, mlst)
 	rf.passwd_rootfs("root", pswd, rootfs)
 	rf.custom_rootfs(conf, rootfs)
-	rf.env(scripts, ''.join((rootfs,"/usr/share/edubian/")), rootfs)
-	rf.compile(''.join((content, "date.py")), content, rootfs)
+	rf.compile(''.join((content, "data.py")), content)
 	rf.virtual_disk("rootfs.raw", "1024M", rootfs, outputdir)
 	right_text_ln = 'Complite.'
         right_pos = right_pos + 1
 	scr.right_pos += right_pos
+	print right_pos, scr.right_pos
         scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
 	return right_pos
+
 ##--make pkg and installer--
 def pkg(right_pos):
 	curses.savetty()
         curses.endwin()
 	make_exe(nsi, outputdir)
+	right_pos = right_pos + 1
+	scr.right_pos += right_pos
+	return right_pos
 
 ##--exit from duild system--
 def exit(right_pos):
