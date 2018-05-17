@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:sid
 
 MAINTAINER Konstantin Kryazhenkov <konstantin@mirea.ru>
 
