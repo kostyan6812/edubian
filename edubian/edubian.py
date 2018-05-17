@@ -33,7 +33,7 @@ def git(right_pos):
                 right_pos = right_pos + 1
                 scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
                 rm_dir(dir)
-        right_text_ln = 'Clone source file from git'
+        right_text_ln = 'Clone source file from git...'
         right_pos = right_pos + 1
         scr.right_pos += right_pos
 	scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
@@ -43,10 +43,10 @@ def git(right_pos):
 ##--make kernel--
 def make(right_pos):
         right_text_ln = 'Patch linux kernel'
-        right_pos = right_pos + 1
+        right_pos += 1
         scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
         args = patch_kernel(dir)
-        right_pos = right_pos + 1
+        right_pos += 1
         for arg in args:
                 proc = Run(arg)
                 right_text_ln = 'Make kernel'
@@ -61,7 +61,7 @@ def make(right_pos):
                 curses.savetty()
                 curses.endwin()
                 proc = Run(arg, dir)
-        right_pos = right_pos + 1
+        right_pos += 1
 	scr.right_pos += right_pos
 	return right_pos
 
@@ -71,18 +71,24 @@ def out(right_pos, pkg, outputdir):
 	if chk:
 		right_text_ln = 'Image exist.'
 		scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
-	        right_pos = right_pos + 1
+	        right_pos += 1
 		scr.right_pos += right_pos
 	else: 
 		right_text_ln = 'Move image to output dir'
-        	right_pos = right_pos + 1
+        	right_pos += 1
 	        scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
-		image = ''.join((dir, "/arch/x86/boot/", pkg))
-		proc = Run(["cp", image, outputdir])
-		right_text_ln = 'Complite'
-	        right_pos = right_pos + 1
-		scr.right_pos += right_pos
-        	scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
+		chk_image = chk_dir(''.join((dir, "/arch/x86/boot/", pkg)))
+		if not chk_image:
+	        	right_pos += 1
+			right_text_ln = 'Compile the core first'
+			scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
+		else:
+			image = ''.join((dir, "/arch/x86/boot/", pkg))
+			proc = Run(["cp", image, outputdir])
+			right_text_ln = 'Done.'
+	       	 	right_pos += 1
+			scr.right_pos += right_pos
+        		scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
 	return right_pos
 
 ##--make rootfs--
@@ -92,12 +98,12 @@ def mfs(right_pos):
         curses.endwin()
 	rf.create_rootfs(rootfs, mlst)
 	rf.passwd_rootfs("root", pswd, rootfs)
-	rf.compile(''.join((homedir, "edubian/", content, "date.py")), content)
+	rf.compile(''.join((homedir, "edubian/", content, "date.c")), content)
 	rf.custom_rootfs(conf, rootfs)
 	rf.virtual_disk("rootfs.raw", "1024M", rootfs, outputdir)
-	right_text_ln = 'Complite.'
-        right_pos = right_pos + 1
+        right_pos += 1
 	scr.right_pos += right_pos
+	right_text_ln = 'Done.'
         scr.right_win.addstr(right_pos, 1, right_text_ln, scr.nT)
 	return right_pos
 
@@ -106,7 +112,7 @@ def pkg(right_pos):
 	curses.savetty()
         curses.endwin()
 	make_exe(nsi, outputdir)
-	right_pos = right_pos + 1
+	right_pos += 1
 	scr.right_pos += right_pos
 	return right_pos
 
@@ -130,6 +136,7 @@ try:
 							locals()[k](right_pos, "bzImage", outputdir)
 						else:
 							right_pos = locals()[k](scr.right_pos)
+							scr.right_pos = right_pos
 	        	for item in menu:
                 	        number, name = item.items()[0]
                         	left_menu = '%s. %s' % (number, name)
@@ -143,7 +150,6 @@ try:
 
 
 except (AttributeError, KeyboardInterrupt):
-#except KeyboardInterrupt:
         curses.endwin()
         print(' Interrupted. Stop program.')
 

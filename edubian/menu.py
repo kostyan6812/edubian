@@ -49,9 +49,7 @@ class MainScr(object):
 		self.left_win = curses.newwin((h-topheight-footerheight-2),(topwidth/3),4,1)
 		leftheight,leftwidth = self.left_win.getmaxyx()
 		self.right_win = curses.newwin((h-footerheight-5),(w-leftwidth-3),4,(leftwidth+2))
-		stdscr = curses.newwin((h-footerheight-5),(w-leftwidth-3),4,(leftwidth+2))
 		rightheight,rightwidth = self.right_win.getmaxyx()
-		self.right_win.idlok(1)
 ##--calculate head position--
 		top_head_position = (topwidth - top_head_len)/2
 		left_head_position = (leftwidth - left_head_len)/2
@@ -79,8 +77,6 @@ class MainScr(object):
 		self.top_win.refresh()
 		self.footer_win.refresh()
 		self.left_win.immedok(True)
-#		self.left_win.refresh()
-#		self.right_win.refresh()
 		self.right_win.immedok(True)
 
 ##--create menu on display--
@@ -88,7 +84,7 @@ class MainScr(object):
 		self.wins(options)
 		self.left_win.keypad(True)
 		row_num = len(menu)
-		footer_text = 'Press UP, DOWN arrow key for move menu item. Press ENTER fo select item. Press ESC for exit.'
+		footer_text = 'Press UP, DOWN arrow key for move menu item. Press ENTER for select item. Press ESC for exit.'
 		self.footer_win.addstr(1,1, footer_text, self.nT)
 		self.footer_win.refresh()
 		for item in menu:
@@ -110,26 +106,26 @@ class MainScr(object):
 	def clear_rwin(self):
 		rightheight,rightwidth = self.right_win.getmaxyx()
 		self.right_win.move(3, 1)
-		rightheight -= 3
+		rightheight -= 4
 		for i in range(rightheight):
        	                self.right_win.move(3+i, 1)
                	        self.right_win.clrtoeol()
+			self.right_win.border(0)
 ##--output description--
 	def console_out(self, right_pos, number):
 		self.clear_rwin()
-#	        self.right_win.refresh()
 	        name_m, text, key = create_description(self.description[int(number)-1])
 	        right_text_l1 = 'This will be done %s: \n' % (name_m)
 	        self.right_win.addstr(right_pos, 1, right_text_l1, self.nT)
-#	        self.right_win.refresh()
-	        right_pos = right_pos + 1
+		self.right_win.border(0)
+	        right_pos += 1
 		self.key = key
         	for i in range(0, len(text)):
 	                right_text_ln = ''.join((str(i+1),". ", text[i]))
-	                right_pos = right_pos + 1
+	                right_pos += 1
 	                self.right_win.addstr(right_pos, 1, right_text_ln, self.nT)
-#	                self.right_win.refresh()
 			self.right_pos = right_pos
+		self.right_pos = right_pos
         	str_count = len(text)
 		self.str_count += str_count
 		rightheight,rightwidth = self.right_win.getmaxyx()

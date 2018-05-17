@@ -36,18 +36,16 @@ class Rootfs(object):
 
 ##--customise OS parameters--
 	def custom_rootfs(self, configs, dir):
-		Run(["cp", "-r", configs, dir])
+		Run(["cp", "-rv", configs, dir])
 		Run(["mkdir", "-v", ''.join((dir, "/opt/edubian"))])
 		Run(["mv", "-v", "data/date", ''.join((dir, "/opt/edubian"))])
 		Run(["cp", "-v", "data/scripts/adduser.py", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 		Run(["cp", "-v", "data/task.ipynb", ''.join((dir, "/opt/edubian"))])
 		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 
-##--compile python file to bin--	
+##--compile python file to bin--
 	def compile(self, file, dir):
-		Run([''.join(("/usr/bin/nuitka ", file))], dir)
-		Run([''.join(("mv ", os.path.splitext(file)[0]+".exe ", os.path.splitext(file)[0]))], dir)
-		Run([''.join(("rm ", " -r ", os.path.splitext(file)[0]+".build"))], dir)
+		Run([''.join(("c++ ", os.path.splitext(file)[0]+".c", " -o ", os.path.splitext(file)[0]))], dir)
 
 ##--create virtual disk--
 	def virtual_disk(self, file, size, rootfs, dir):
