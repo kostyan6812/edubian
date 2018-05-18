@@ -16,6 +16,10 @@ RUN mkdir /root/edubian/
 RUN mkdir /root/src/
 RUN mkdir /root/output/
 COPY edubian/ /root/edubian/
+RUN wget http://nsis.sourceforge.net/mediawiki/images/c/c9/Inetc.zip
+RUN unzip -d /usr/share/nsis/ Inetc.zip
+RUN rm Inetc.zip
 WORKDIR /root/edubian
 
-ENTRYPOINT ["python", "__init__.py"]
+
+#ENTRYPOINT ["python", "__init__.py"]
