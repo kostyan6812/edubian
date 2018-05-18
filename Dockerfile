@@ -22,4 +22,4 @@ RUN rm Inetc.zip
 WORKDIR /root/edubian
 
 
-#ENTRYPOINT ["python", "__init__.py"]
+ENTRYPOINT ["python", "__init__.py"]
