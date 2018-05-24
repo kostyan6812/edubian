@@ -3,6 +3,7 @@ FROM debian:buster
 MAINTAINER Konstantin Kryazhenkov <konstantin@mirea.ru>
 
 ENV TZ=Europe/Moscow
+ENV TERM=$TERM
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade && DEBIAN_FRONTEND=noninteractive apt-get install -y multistrap nano git apt-utils \
 		     dialog lsb-release binutils wget ca-certificates pv bc lzop zip binfmt-support build-essential ccache unzip \
 	             parted pkg-config libncurses5-dev whiptail debian-keyring debian-archive-keyring f2fs-tools libfile-fcntllock-perl rsync libssl-dev \

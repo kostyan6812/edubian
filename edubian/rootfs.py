@@ -57,5 +57,7 @@ class Rootfs(object):
 		Runshell([''.join(("rsync -axHAX --progress ", rootfs,"/", " /mnt/"))])
 		Run(["umount", "/mnt/"])
 		Run([''.join(("qemu-img convert -f raw -O qcow2 ", file, " ", os.path.splitext(file)[0]+".qcow2"))], dir)
+		Run(["umount", "-f", ''.join((rootfs,"/proc/"))])
+                Run(["umount", "-fl", ''.join((rootfs, "/dev/"))])
 		Run([''.join(("rm ", file))], dir)
-		Run([''.join(("rm -r ", rootfs))], dir)
+		Run([''.join(("rm -vfr ", rootfs))], dir)
