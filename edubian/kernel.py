@@ -7,9 +7,9 @@ def patch_kernel(dir):
 	args = [ ] 
 	if chk:
 		file_patch = ''.join((dir, "/include/linux/uts.h"))
-		args.append(['patch', '--verbose', '-f', file_patch, 'patch/uts.h.patch'])
+		args.append(['patch', '--verbose', '-f', file_patch, 'data/patch/uts.h.patch'])
 		file_config = ''.join((dir, "/.config"))
-		args.append(['cp', '-v', 'config/kernel/edubian.conf', file_config])
+		args.append(['cp', 'data/config/edubian.conf', file_config])
 	else:
 		args.append('None')
 	return args

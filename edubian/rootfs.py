@@ -21,8 +21,6 @@ class Rootfs(object):
 		Run(["mount", "-o", "bind", "/proc", ''.join((dir,"/proc/"))])
 		Run(["mount", "-o", "bind", "/dev", ''.join((dir,"/dev/"))])
 		Runshell([''.join(("multistrap -f ", config, " -d ", dir))])
-		Run(["umount", "-lf", ''.join((dir,"/proc/"))])
-		Run(["umount", "-lf", ''.join((dir,"/dev/"))])
 
 ##--add user password--
 	def passwd_rootfs(self, user, password, dir):
