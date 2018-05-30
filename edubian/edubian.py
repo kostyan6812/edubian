@@ -100,7 +100,7 @@ def mfs(right_pos):
 	rf.passwd_rootfs("root", pswd, rootfs)
 	rf.compile(''.join((homedir, "edubian/", content, "date.c")), content)
 	rf.custom_rootfs(conf, rootfs)
-	rf.virtual_disk("rootfs.raw", "1024M", rootfs, outputdir)
+	rf.virtual_disk("rootfs.raw", "1536M", rootfs, outputdir)
         right_pos += 1
 	scr.right_pos += right_pos
 	right_text_ln = 'Done.'
