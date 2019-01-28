@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:stretch
 
 MAINTAINER Konstantin Kryazhenkov <konstantin@mirea.ru>
 
