@@ -41,8 +41,9 @@ class Rootfs(object):
 		Run(["cp", "-v", "data/task.ipynb", ''.join((dir, "/opt/edubian"))])
 		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 		Run(["cp", "-v", "data/scripts/fstab.sh",''.join((dir, "/etc/init.d/"))])
+		Run(["cp", "-v", "data/etc/systemd/system/fstab.service",''.join((dir, "/etc/systemd/system/"))])
 		Run(["chmod", "+x", ''.join((dir, "/etc/init.d/fstab.sh"))])
-		chroot = "chroot %s update-rc.d fstab.sh defaults 1" % (dir)
+		chroot = "chroot %s service fstab enable" % (dir)
                 exp = pexpect.spawn(chroot)
 		exp.expect(pexpect.EOF)
 
