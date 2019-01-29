@@ -1,1 +1,1 @@
-"c:\Program Files\qemu\qemu-system-x86_64" -kernel bzImage -m 2096 -drive file=rootfs.qcow2,format=qcow2 -append "console=tty0 root=/dev/sda devtmpfs.mount=0 rw panic=1" -device e1000,netdev=net0 -netdev tap,ifname=tap,id=net0
+"c:\Program Files\qemu\qemu-system-x86_64" -kernel bzImage -m 2096 -drive file=rootfs.qcow2,format=qcow2 -append "console=tty0 root=/dev/sda devtmpfs.mount=0 net.ifnames=0 rw panic=1" -device e1000,netdev=net0 -netdev tap,ifname=tap,id=net0
