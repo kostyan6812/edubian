@@ -42,8 +42,8 @@ class Rootfs(object):
 		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 		Run(["cp", "-v", "data/scripts/fstab.sh",''.join((dir, "/etc/init.d/"))])
 		Run(["chmod", "+x", ''.join((dir, "/etc/init.d/fstab.sh"))])
-		Run(["ln", "-s", ''.join((dir, "/etc/init.d/fstab.sh")), ''.join((dir, "/etc/rcS.d/S01fstab.sh"))])
-
+		chroot = "chroot %s "ln -s /etc/init.d/fstab.sh  /etc/rcS.d/S01fstab.sh" % (dir)
+		
 ##--compile python file to bin--
 	def compile(self, file, dir):
 		Run([''.join(("c++ ", os.path.splitext(file)[0]+".c", " -o ", os.path.splitext(file)[0]))], dir)
