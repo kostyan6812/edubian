@@ -45,6 +45,9 @@ class Rootfs(object):
 		chroot = "chroot %s cd /etc/rcS.d/ && ln -s ../init.d/fstab.sh S01fstab.sh" % (dir)
                 exp = pexpect.spawn(chroot)
                 exp.expect(pexpect.EOF)
+		chroot = "chroot %s cd /etc/rc0.d/ && ln -s ../init.d/fstab.sh S01fstab.sh" % (dir)
+                exp = pexpect.spawn(chroot)
+		exp.expect(pexpect.EOF)
 
 		
 ##--compile python file to bin--
