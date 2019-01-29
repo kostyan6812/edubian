@@ -43,6 +43,7 @@ class Rootfs(object):
 		Run(["cp", "-v", "data/scripts/fstab.sh",''.join((dir, "/etc/init.d/"))])
 		Run(["cp", "-v", "data/etc/systemd/system/fstab.service",''.join((dir, "/etc/systemd/system/"))])
 		Run(["chmod", "+x", ''.join((dir, "/etc/init.d/fstab.sh"))])
+		Run(["chmod", "+x", ''.join((dir, "/etc/systemd/system/fstab.service"))])
 		chroot = "chroot %s service fstab enable" % (dir)
                 exp = pexpect.spawn(chroot)
 		exp.expect(pexpect.EOF)
