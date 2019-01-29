@@ -42,7 +42,7 @@ class Rootfs(object):
 		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 		Run(["cp", "-v", "data/scripts/fstab.sh",''.join((dir, "/etc/init.d/"))])
 		Run(["chmod", "+x", ''.join((dir, "/etc/init.d/fstab.sh"))])
-		chroot = "chroot %s /etc/init.d/fstab.sh start" % (dir)
+		chroot = "chroot %s update-rc.d fstab.sh defaults 1" % (dir)
                 exp = pexpect.spawn(chroot)
 		exp.expect(pexpect.EOF)
 
