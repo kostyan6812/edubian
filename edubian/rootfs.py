@@ -40,7 +40,7 @@ class Rootfs(object):
 		Run(["cp", "-v", "data/scripts/adduser.py", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 		Run(["cp", "-v", "data/task.ipynb", ''.join((dir, "/opt/edubian"))])
 		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
-		Run(["blkid", ">>" ''.join((dir, "/etc/fstab"))])
+		Run(["blkid", ">>", ''.join((dir, "/etc/fstab"))])
 
 ##--compile python file to bin--
 	def compile(self, file, dir):
