@@ -42,7 +42,7 @@ class Rootfs(object):
 		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 		Run(["cp", "-v", "data/scripts/fstab.sh",''.join((dir, "/etc/init.d/"))])
 		Run(["chmod", "+x", ''.join((dir, "/etc/init.d/fstab.sh"))])
-		chroot = "chroot %s ln -s /etc/init.d/fstab.sh /etc/rcS.d/S01fstab.sh" % (dir)
+		chroot = "chroot %s cd /etc/rcS.d/ && ln -s ../init.d/fstab.sh S01fstab.sh" % (dir)
                 exp = pexpect.spawn(chroot)
                 exp.expect(pexpect.EOF)
 
