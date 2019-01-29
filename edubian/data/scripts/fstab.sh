@@ -2,8 +2,7 @@
 
 
 blkid >> /etc/fstab
-service fstab disable
-service fstab remove
+systemctl disable fstab.service
 
 # Delete me
 rm /etc/systemd/system/fstab.service
