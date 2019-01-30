@@ -19,7 +19,7 @@ RUN mkdir /root/output/
 COPY edubian/ /root/edubian/
 RUN wget http://nsis.sourceforge.net/mediawiki/images/c/c9/Inetc.zip
 RUN unzip -d /usr/share/nsis/ Inetc.zip
-RUN cp /usr/share/nsis/Plugins/x86-unicode/INetC.dll /usr/share/nsis/Plugins/
+RUN cp /usr/share/nsis/Plugins/x86-ansi/INetC.dll /usr/share/nsis/Plugins/
 RUN rm -rf /usr/share/nsis/Plugins/x86-unicode/
 RUN rm -rf /usr/share/nsis/Plugins/x86-ansi/
 RUN rm -rf /usr/share/nsis/Plugins/amd64-unicode/
