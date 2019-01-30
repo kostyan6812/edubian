@@ -35,7 +35,7 @@ Section "" ;No components page, name is not important
 
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
- inetc::get "https://qemu.weilnetz.de/w64/2017/qemu-w64-setup-20170808.exe" "$TEMP\qemu-w64-setup-20170808.exe"
+ inetc::get /WEAKSECURITY "https://qemu.weilnetz.de/w64/2017/qemu-w64-setup-20170808.exe" "$TEMP\qemu-w64-setup-20170808.exe"
  Pop $0 ;Get the return value
   StrCmp $0 "OK" +3
     MessageBox MB_OK "Download failed: $0"
