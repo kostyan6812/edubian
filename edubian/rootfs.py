@@ -42,6 +42,7 @@ class Rootfs(object):
 		Run(["chmod", "+x", ''.join((dir, "/usr/local/sbin/adduser.local"))])
 		Run(["cp", "-v", "data/scripts/fstab.sh",''.join((dir, "/etc/init.d/"))])
 		Run(["cp", "-v", "data/etc/systemd/system/fstab.service",''.join((dir, "/etc/systemd/system/"))])
+		Run(["cp", "-v", "data/etc/systemd/system/getty.target.wants/getty@tty1.service",''.join((dir, "/lib/systemd/system/getty@service"))])
 		Run(["chmod", "+x", ''.join((dir, "/etc/init.d/fstab.sh"))])
 		Run(["chmod", "+x", ''.join((dir, "/etc/systemd/system/fstab.service"))])
 		chroot = "chroot %s systemctl enable fstab.service" % (dir)
