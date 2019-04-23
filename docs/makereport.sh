@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## get template for converter
+wget https://raw.githubusercontent.com/kostyan6812/edubian/master/docs/edubian.tpl
+
 ##prepare for report
 cd ${HOME}
 mkdir -v report || echo 'dir exist, skip'
