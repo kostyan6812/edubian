@@ -1,22 +1,54 @@
 #!/bin/bash
+###variable
+tpl="edubian.tpl"
+export EDUBIANUSERPROFILE=${HOME}/Assignment/.${USER}
 
-## get template for converter
-wget https://raw.githubusercontent.com/kostyan6812/edubian/master/docs/edubian.tpl
+
+###Prepare
+rm -rv ${HOME}/report
+rm -v ${HOME}/${USER}.tar.gz
+
+## Check template exist
+if [ -f "$tpl" ]
+then
+	echo "Template $tpl found."
+	echo "Remove it"
+	rm -v ${PWD}/$tpl
+	echo "Download from github..."
+	## get template for converter
+	wget https://raw.githubusercontent.com/kostyan6812/edubian/master/docs/edubian.tpl
+else
+	echo "Template $file not found."
+	echo "Download from github..."
+	## get template for converter
+	wget https://raw.githubusercontent.com/kostyan6812/edubian/master/docs/edubian.tpl
+fi
+
 
 ##prepare for report
 cd ${HOME}
-mkdir -v report || echo 'dir exist, skip'
+mkdir -v report
 
-export EDUBIANUSERPROFILE=${HOME}/Assignment/.${USER}
-
-## convert notebook to htm
 for file in Assignment/Topics/${USER}*.ipynb; do
-  echo ${file%.*}.html
-  sed -i '/User/ s/.$/\\n",/' $file
-  sed -i "/User/a\"username ${USER}\"" $file
-  jupyter-nbconvert $file --to html --template edubian
-  mv ${file%.*}.html ${HOME}/report
+	STR="$(grep -c "username ${USER}" $file)"
+	 if [[ ${STR} == 0 ]]
+	 then
+	  echo ${file%.*}.html
+	  sed -i '/User/ s/.$/\\n",/' $file
+	  sed -i "/User/a\"username ${USER}\"" $file
+	else
+	  if [[ ${STR} == 1 ]]
+	  then
+	   echo "File has been prepared"
+	  else
+	   echo "Bad file. Terminate"
+           exit 1
+          fi
+	fi
+       jupyter-nbconvert $file --to html --template edubian
+       mv ${file%.*}.html ${HOME}/report
 done
+
 
 ## convert html to docx
 for file in report/${USER}*.html; do
