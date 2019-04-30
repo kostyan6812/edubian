@@ -10,7 +10,7 @@ mkdir -v report || echo 'dir exist, skip'
 export EDUBIANUSERPROFILE=${HOME}/Assignment/.${USER}
 
 ## convert notebook to htm
-for file in Assignment/Topics/*.ipynb; do
+for file in Assignment/Topics/${USER}*.ipynb; do
   echo ${file%.*}.html
   sed -i '/User/ s/.$/\\n",/' $file
   sed -i "/User/a\"username ${USER}\"" $file
@@ -19,7 +19,7 @@ for file in Assignment/Topics/*.ipynb; do
 done
 
 ## convert html to docx
-for file in report/*.html; do
+for file in report/${USER}*.html; do
   pandoc $file --to=docx -o ${file%.*}.docx
   rm -vf $file 
 done
