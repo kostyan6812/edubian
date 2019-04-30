@@ -10,4 +10,6 @@
 {% set nb_title = nb.metadata.get('title', '') or resources['metadata']['name'] %}
 <h1>{{nb_title}}</h1>
 {% endblock html_head %}
+</head>
+</html>
 {% endblock header %}
